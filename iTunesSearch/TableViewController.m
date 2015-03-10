@@ -23,7 +23,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    midias = [[NSMutableArray alloc]init];
     UINib *nib = [UINib nibWithNibName:@"TableViewCell" bundle:nil];
     [self.tableview registerNib:nib forCellReuseIdentifier:@"celulaPadrao"];
     
@@ -56,12 +56,16 @@
     
     [celula.nome setText:filme.nome];
     [celula.tipo setText:@"Filme"];
+    [celula.artista setText:filme.artista];
+    NSString *a = [NSString stringWithFormat:@"%@",filme.duracao];
+    [celula.duracao setText:a];
+    [celula.genero setText:filme.genero];
     
     return celula;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 70;
+    return 170;
 }
 
 
