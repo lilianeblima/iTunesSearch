@@ -12,7 +12,7 @@
 #import "Entidades/Filme.h"
 
 @interface TableViewController () {
-    NSArray *midias;
+    NSArray *midias, *recipes, *searchResult;
 }
 
 @end
@@ -27,11 +27,21 @@
     UINib *nib = [UINib nibWithNibName:@"TableViewCell" bundle:nil];
     [self.tableview registerNib:nib forCellReuseIdentifier:@"celulaPadrao"];
     
+
+    
     iTunesManager *itunes = [iTunesManager sharedInstance];
     midias = [itunes buscarMidias:@"Apple"];
+    self.tableview.contentInset = UIEdgeInsetsMake(25.0f, 0.0f, 0.0f, 0.0);
+
+
+    
     
 #warning Necessario para que a table view tenha um espaco em relacao ao topo, pois caso contrario o texto ficara atras da barra superior
-    self.tableview.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableview.bounds.size.width, 15.f)];
+   //  self.tableview.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(20, 10, self.tableview.bounds.size.width, 20)];
+
+    //self.tableview.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableview.bounds.size.width, 15.f)];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -65,9 +75,34 @@
     return celula;
 }
 
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 170;
 }
 
 
+
+- (IBAction)BBuscar:(id)sender {
+    
+    UINib *nib = [UINib nibWithNibName:@"TableViewCell" bundle:nil];
+    [self.tableview registerNib:nib forCellReuseIdentifier:@"celulaPadrao"];
+    iTunesManager *itunes = [iTunesManager sharedInstance];
+    @try {
+        midias = [itunes buscarMidias:(_LTexto2.text)];
+            [_LTexto2 resignFirstResponder];
+        
+        }
+    @catch (NSException *exception) {
+        NSLog(@"Nao foi possivel achar");
+        [_LTexto2 setText:@""];
+        _LTexto2.placeholder = NSLocalizedString(@"Erro! Tente novamente!", nil);
+    }
+    @finally {
+        [self.tableview reloadData];
+    }
+    
+    
+    NSLog(@"Entrei");
+}
 @end
+
