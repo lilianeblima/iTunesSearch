@@ -8,6 +8,7 @@
 
 #import "iTunesManager.h"
 #import "Entidades/Filme.h"
+#import <UIKit/UIKit.h>
 
 @implementation iTunesManager
 
@@ -30,37 +31,84 @@ static bool isFirstAccess = YES;
 
 
 - (NSArray *)buscarMidias:(NSString *)termo {
-    if (!termo) {
-        termo = @"";
-    }
+    //TRATA O ERRO NAS FUNCOES
+//    if (!termo) {
+//        termo = @"";
+//    }
+//    
+//    NSString *url = [NSString stringWithFormat:@"https://itunes.apple.com/search?term=%@&media=movie", termo];
+//    NSData *jsonData = [NSData dataWithContentsOfURL: [NSURL URLWithString:url]];
+//    
+//    NSError *error;
+//    NSDictionary *resultado = [NSJSONSerialization JSONObjectWithData:jsonData
+//                                                              options:NSJSONReadingMutableContainers
+//                                                                error:&error];
+//    if (error) {
+//        NSLog(@"Não foi possível fazer a busca. ERRO: %@", error);
+//        return nil;
+//    }
+//    
+//    NSArray *resultados = [resultado objectForKey:@"results"];
+//    NSMutableArray *filmes = [[NSMutableArray alloc] init];
+//    
+//    for (NSDictionary *item in resultados) {
+//        Filme *filme = [[Filme alloc] init];
+//        [filme setNome:[item objectForKey:@"trackName"]];
+//        [filme setTrackId:[item objectForKey:@"trackId"]];
+//        [filme setArtista:[item objectForKey:@"artistName"]];
+//        [filme setDuracao:[item objectForKey:@"trackTimeMillis"]];
+//        [filme setGenero:[item objectForKey:@"primaryGenreName"]];
+//        [filme setPais:[item objectForKey:@"country"]];
+//        [filmes addObject:filme];
+//    }
+//    
+//    return filmes;
     
-    NSString *url = [NSString stringWithFormat:@"https://itunes.apple.com/search?term=%@&media=movie", termo];
-    NSData *jsonData = [NSData dataWithContentsOfURL: [NSURL URLWithString:url]];
+    //TRATA O ERRO NO OBJETO
     
-    NSError *error;
-    NSDictionary *resultado = [NSJSONSerialization JSONObjectWithData:jsonData
-                                                              options:NSJSONReadingMutableContainers
-                                                                error:&error];
-    if (error) {
-        NSLog(@"Não foi possível fazer a busca. ERRO: %@", error);
-        return nil;
-    }
+        @try {
+            if (!termo) {
+                termo = @"";
+            }
     
-    NSArray *resultados = [resultado objectForKey:@"results"];
-    NSMutableArray *filmes = [[NSMutableArray alloc] init];
+            NSString *url = [NSString stringWithFormat:@"https://itunes.apple.com/search?term=%@&media=movie", termo];
+            NSData *jsonData = [NSData dataWithContentsOfURL: [NSURL URLWithString:url]];
     
-    for (NSDictionary *item in resultados) {
-        Filme *filme = [[Filme alloc] init];
-        [filme setNome:[item objectForKey:@"trackName"]];
-        [filme setTrackId:[item objectForKey:@"trackId"]];
-        [filme setArtista:[item objectForKey:@"artistName"]];
-        [filme setDuracao:[item objectForKey:@"trackTimeMillis"]];
-        [filme setGenero:[item objectForKey:@"primaryGenreName"]];
-        [filme setPais:[item objectForKey:@"country"]];
-        [filmes addObject:filme];
-    }
+            NSError *error;
+            NSDictionary *resultado = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
+            if (error) {
+                NSLog(@"Não foi possível fazer a busca. ERRO: %@", error);
+                return nil;
+            }
     
+            NSArray *resultados = [resultado objectForKey:@"results"];
+            NSMutableArray *filmes = [[NSMutableArray alloc] init];
+    
+            for (NSDictionary *item in resultados) {
+                Filme *filme = [[Filme alloc] init];
+                [filme setNome:[item objectForKey:@"trackName"]];
+                [filme setTrackId:[item objectForKey:@"trackId"]];
+                [filme setArtista:[item objectForKey:@"artistName"]];
+                [filme setDuracao:[item objectForKey:@"trackTimeMillis"]];
+                [filme setGenero:[item objectForKey:@"primaryGenreName"]];
+                [filme setPais:[item objectForKey:@"country"]];
+                [filmes addObject:filme];
+                
+            }
     return filmes;
+        }
+    
+        @catch (NSException *exception) {
+            NSMutableArray *filmes = nil;
+            UIAlertView *erro = [[UIAlertView alloc]initWithTitle:@"Erro" message:@"Erro de pesquisa" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [erro show];
+            
+            return filmes;
+            NSLog(@"ERRO");
+            
+            
+        }
+      
 }
 
 

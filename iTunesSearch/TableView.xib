@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TableViewController">
             <connections>
+                <outlet property="BBuscar" destination="ltb-rz-AFO" id="UqJ-WK-k4x"/>
                 <outlet property="BBuscarr" destination="K0o-SG-pDw" id="h0J-lW-5sT"/>
                 <outlet property="LTexto" destination="hgs-cS-hk1" id="fh3-dS-D2b"/>
                 <outlet property="LTexto2" destination="hgs-cS-hk1" id="SZz-Qi-Hfy"/>
@@ -24,7 +25,7 @@
                 <items>
                     <barButtonItem style="plain" id="9Qm-gp-xYJ">
                         <textField key="customView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="hgs-cS-hk1">
-                            <rect key="frame" x="16" y="7" width="212" height="30"/>
+                            <rect key="frame" x="16" y="7" width="188" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>

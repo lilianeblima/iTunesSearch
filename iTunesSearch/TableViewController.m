@@ -27,14 +27,13 @@
     UINib *nib = [UINib nibWithNibName:@"TableViewCell" bundle:nil];
     [self.tableview registerNib:nib forCellReuseIdentifier:@"celulaPadrao"];
     
-
     
     iTunesManager *itunes = [iTunesManager sharedInstance];
     midias = [itunes buscarMidias:@"Apple"];
     self.tableview.contentInset = UIEdgeInsetsMake(25.0f, 0.0f, 0.0f, 0.0);
 
 
-    
+    self.BBuscar.title = NSLocalizedString(@"botao", nil);
     
 #warning Necessario para que a table view tenha um espaco em relacao ao topo, pois caso contrario o texto ficara atras da barra superior
    //  self.tableview.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(20, 10, self.tableview.bounds.size.width, 20)];
@@ -86,23 +85,37 @@
     
     UINib *nib = [UINib nibWithNibName:@"TableViewCell" bundle:nil];
     [self.tableview registerNib:nib forCellReuseIdentifier:@"celulaPadrao"];
+    
+    //TRATA O ERRO NO PROPRIO OBJETO ITUNES
     iTunesManager *itunes = [iTunesManager sharedInstance];
-    @try {
-        midias = [itunes buscarMidias:(_LTexto2.text)];
-            [_LTexto2 resignFirstResponder];
-        
-        }
-    @catch (NSException *exception) {
-        NSLog(@"Nao foi possivel achar");
-        [_LTexto2 setText:@""];
-        _LTexto2.placeholder = NSLocalizedString(@"Erro! Tente novamente!", nil);
-    }
-    @finally {
-        [self.tableview reloadData];
-    }
+    midias = [itunes buscarMidias:(_LTexto2.text)];
+    
+    [_LTexto2 resignFirstResponder];
+    [self.tableview reloadData];
+    
+    
+    //TRATA O ERRO SOMENTE NESSA FUNCAO
+//    @try {
+//        midias = [itunes buscarMidias:(_LTexto2.text)];
+//            [_LTexto2 resignFirstResponder];
+//        
+//        }
+//    @catch (NSException *exception) {
+//        NSLog(@"Nao foi possivel achar");
+//        [_LTexto2 setText:@""];
+//        _LTexto2.placeholder = NSLocalizedString(@"Erro! Tente novamente!", nil);
+//    }
+//    @finally {
+//
+//    }
     
     
     NSLog(@"Entrei");
+}
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [_LTexto2 resignFirstResponder];
 }
 @end
 

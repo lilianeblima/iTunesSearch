@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *LTexto;
 - (IBAction)BBuscar:(id)sender;
 @property (weak, nonatomic) IBOutlet UITextField *LTexto2;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *BBuscar;
 
 @end
 
