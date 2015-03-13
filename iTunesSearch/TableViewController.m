@@ -10,9 +10,14 @@
 #import "TableViewCell.h"
 #import "iTunesManager.h"
 #import "Entidades/Filme.h"
+#import "Musica.h"
+#import "Podcast.h"
+#import "Ebook.h"
 
 @interface TableViewController () {
-    NSArray *midias, *recipes, *searchResult;
+    NSArray *midias, *musicas, *ebooks, *podcasts, *recipes, *searchResult;
+    NSMutableArray *armazena;
+    
 }
 
 @end
@@ -30,10 +35,17 @@
     
     iTunesManager *itunes = [iTunesManager sharedInstance];
     midias = [itunes buscarMidias:@"Apple"];
+  
+    musicas = [itunes buscarMusica:@"Apple"];
+    ebooks = [itunes buscarEboook:@"Apple"];
+    podcasts = [itunes buscarPodcast:@"Apple"];
     self.tableview.contentInset = UIEdgeInsetsMake(25.0f, 0.0f, 0.0f, 0.0);
 
 
     self.BBuscar.title = NSLocalizedString(@"botao", nil);
+    
+    
+   // [self.Armazenar];
     
 #warning Necessario para que a table view tenha um espaco em relacao ao topo, pois caso contrario o texto ficara atras da barra superior
    //  self.tableview.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(20, 10, self.tableview.bounds.size.width, 20)];
@@ -62,6 +74,9 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     TableViewCell *celula = [self.tableview dequeueReusableCellWithIdentifier:@"celulaPadrao"];
     
+    [self Armazenar];
+    
+    
     Filme *filme = [midias objectAtIndex:indexPath.row];
     
     [celula.nome setText:filme.nome];
@@ -71,8 +86,30 @@
     [celula.duracao setText:a];
     [celula.genero setText:filme.genero];
     
+    NSLog(@"%@",midias);
+    if (midias == nil) {
+        NSLog(@"NIL");
+    }
+    
     return celula;
 }
+
+
+
+-(void)Armazenar
+{
+    int tamanho;
+  //  tamanho = [midias.count] + [musicas.count] + [ebooks.count] + [podcasts.count];
+    
+    for (int i=0; i<midias.count; i++)
+    {
+        [armazena addObject:midias];
+    }
+    
+    NSLog(@"%@",armazena);
+    
+}
+
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
