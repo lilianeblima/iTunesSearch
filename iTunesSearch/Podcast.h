@@ -18,5 +18,6 @@
 @property (nonatomic, strong) NSString *pais;
 @property (nonatomic, strong)NSString *tipo;
 @property (nonatomic,strong) NSString *imagem;
+@property (nonatomic, strong)NSString *logo;
 
 @end

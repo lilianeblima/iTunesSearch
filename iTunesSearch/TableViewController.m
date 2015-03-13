@@ -39,6 +39,9 @@
     
     NSLog(@"%@", [defaults objectForKey:@"BuscarPalavra"]);
     
+    
+    NSError *error = NULL;
+
     if ([[defaults objectForKey:@"BucarPalavra"] isEqual:@""])
     {
         midias = [itunes buscarMidias:@"Apple"];
@@ -108,8 +111,10 @@
             [celula.artista setText:filme.artista];
             NSString *a = [NSString stringWithFormat:@"%@",filme.duracao];
             [celula.duracao setText:a];
+            //[celula.tipo setText:<#(NSString *)#>]
             [celula.genero setText:filme.genero];
             [celula.Imagem setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:filme.imagem]]]];
+            [celula.logo setImage:[UIImage imageNamed:@"Filmes.png"]];
 
       }
     
@@ -123,6 +128,7 @@
         [celula.duracao setText:a];
         [celula.genero setText:musica.genero];
         [celula.Imagem setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:musica.imagem]]]];
+        [celula.logo setImage:[UIImage imageNamed:@"Musica.png"]];
     }
     
     if (indexPath.section ==2)
@@ -135,6 +141,7 @@
         [celula.duracao setText:a];
         [celula.genero setText:ebook.genero];
         [celula.Imagem setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:ebook.imagem]]]];
+        [celula.logo setImage:[UIImage imageNamed:@"eBook.png"]];
         
     }
     
@@ -148,6 +155,7 @@
         [celula.duracao setText:a];
         [celula.genero setText:podcast.genero];
         [celula.Imagem setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:podcast.imagem]]]];
+        [celula.logo setImage:[UIImage imageNamed:@"Podcast.png"]];
     }
   
     return celula;

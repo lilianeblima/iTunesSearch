@@ -35,8 +35,16 @@ static bool isFirstAccess = YES;
 
 - (NSArray *)buscarMidias:(NSString *)termo {
     
-    //TRATA O ERRO NO OBJETO
-     //BUSCAR UM TIPO DE CADA VEZ
+     NSError *error;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"^[ A-Z0-9a-z._%+-]{2,100}$" options: NSRegularExpressionCaseInsensitive error:&error];
+    
+        NSTextCheckingResult *match = [regex firstMatchInString:termo options:0 range:NSMakeRange(0, [termo length])];
+    
+        if (!match) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Termo inválido" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [alert show];
+                return nil;
+            }
          NSMutableArray *filmes = [[NSMutableArray alloc] init];
 
     
@@ -49,7 +57,7 @@ static bool isFirstAccess = YES;
             NSData *jsonData = [NSData dataWithContentsOfURL: [NSURL URLWithString:url]];
             
 
-            NSError *error;
+           // NSError *error;
             NSDictionary *resultado = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
             if (error) {
                 NSLog(@"Não foi possível fazer a busca. ERRO: %@", error);

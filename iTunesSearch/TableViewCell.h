@@ -16,5 +16,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *artista;
 @property (weak, nonatomic) IBOutlet UILabel *duracao;
 @property (weak, nonatomic) IBOutlet UIImageView *Imagem;
+@property (weak, nonatomic) IBOutlet UIImageView *logo;
 
 @end
