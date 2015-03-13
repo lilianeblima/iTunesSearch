@@ -86,7 +86,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0)
-    return [midias count];
+   return [midias count];
     else if (section ==1)
         return [musicas count];
     else if (section ==2)
@@ -109,6 +109,8 @@
             NSString *a = [NSString stringWithFormat:@"%@",filme.duracao];
             [celula.duracao setText:a];
             [celula.genero setText:filme.genero];
+            [celula.Imagem setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:filme.imagem]]]];
+
       }
     
     if (indexPath.section ==1)
@@ -120,6 +122,7 @@
         NSString *a = [NSString stringWithFormat:@"%@",musica.duracao];
         [celula.duracao setText:a];
         [celula.genero setText:musica.genero];
+        [celula.Imagem setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:musica.imagem]]]];
     }
     
     if (indexPath.section ==2)
@@ -131,6 +134,8 @@
         NSString *a = [NSString stringWithFormat:@"%@",ebook.duracao];
         [celula.duracao setText:a];
         [celula.genero setText:ebook.genero];
+        [celula.Imagem setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:ebook.imagem]]]];
+        
     }
     
     if (indexPath.section ==3)
@@ -142,6 +147,7 @@
         NSString *a = [NSString stringWithFormat:@"%@",podcast.duracao];
         [celula.duracao setText:a];
         [celula.genero setText:podcast.genero];
+        [celula.Imagem setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:podcast.imagem]]]];
     }
   
     return celula;
