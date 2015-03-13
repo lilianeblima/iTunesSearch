@@ -39,14 +39,13 @@ static bool isFirstAccess = YES;
      //BUSCAR UM TIPO DE CADA VEZ
          NSMutableArray *filmes = [[NSMutableArray alloc] init];
 
-        @try {
+    
            
             if (!termo) {
                 termo = @"";
             }
     
-            NSString *url = [NSString stringWithFormat:@"https://itunes.apple.com/search?term=%@&media=movie", termo];
-
+            NSString *url = [NSString stringWithFormat:@"https://itunes.apple.com/search?term=%@&media=all", termo];
             NSData *jsonData = [NSData dataWithContentsOfURL: [NSURL URLWithString:url]];
             
 
@@ -69,33 +68,12 @@ static bool isFirstAccess = YES;
                 [filme setDuracao:[item objectForKey:@"trackTimeMillis"]];
                 [filme setGenero:[item objectForKey:@"primaryGenreName"]];
                 [filme setPais:[item objectForKey:@"country"]];
+                [filme setTipo:[item objectForKey:@"kind"]];
                 [filmes addObject:filme];
-                
-            
-             
-                
-                
+          
             }
             return filmes;
-        }
-    
-
-    
-        @catch (NSException *exception) {
-            NSMutableArray *filmes = nil;
-            UIAlertView *erro = [[UIAlertView alloc]initWithTitle:@"Erro" message:@"Erro de pesquisa" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [erro show];
-            
-            return filmes;
-            NSLog(@"ERRO");
-            
-            
-        }
-    
-   // _midia = [[NSArray alloc] initWithObjects:filmes, musicas, ebooks, podcasts, nil];
-    _midia = [[NSArray alloc]initWithObjects:filmes, nil];
-    
-    return _midia;
+     
       
 }
 
@@ -107,7 +85,7 @@ static bool isFirstAccess = YES;
             termo = @"";
         }
         
-            NSString *url1 = [NSString stringWithFormat:@"https://itunes.apple.com/search?term=%@&media=music", termo];
+            NSString *url1 = [NSString stringWithFormat:@"https://itunes.apple.com/search?term=%@&media=all", termo];
             NSData *jsonData1 = [NSData dataWithContentsOfURL: [NSURL URLWithString:url1]];
             
             

@@ -77,10 +77,14 @@
     [self Armazenar];
     
     
+    
     Filme *filme = [midias objectAtIndex:indexPath.row];
     
+    //if ([filme.tipo  isEqual: @"podcast"]) {
+      
+    
     [celula.nome setText:filme.nome];
-    [celula.tipo setText:@"Filme"];
+    [celula.tipo setText:filme.tipo];
     [celula.artista setText:filme.artista];
     NSString *a = [NSString stringWithFormat:@"%@",filme.duracao];
     [celula.duracao setText:a];
@@ -90,7 +94,7 @@
     if (midias == nil) {
         NSLog(@"NIL");
     }
-    
+   // }
     return celula;
 }
 
@@ -124,27 +128,29 @@
     [self.tableview registerNib:nib forCellReuseIdentifier:@"celulaPadrao"];
     
     //TRATA O ERRO NO PROPRIO OBJETO ITUNES
-    iTunesManager *itunes = [iTunesManager sharedInstance];
-    midias = [itunes buscarMidias:(_LTexto2.text)];
-    
-    [_LTexto2 resignFirstResponder];
-    [self.tableview reloadData];
-    
+//    iTunesManager *itunes = [iTunesManager sharedInstance];
+//    midias = [itunes buscarMidias:(_LTexto2.text)];
+//    
+//    [_LTexto2 resignFirstResponder];
+//    [self.tableview reloadData];
+//    
     
     //TRATA O ERRO SOMENTE NESSA FUNCAO
-//    @try {
-//        midias = [itunes buscarMidias:(_LTexto2.text)];
-//            [_LTexto2 resignFirstResponder];
-//        
-//        }
-//    @catch (NSException *exception) {
-//        NSLog(@"Nao foi possivel achar");
-//        [_LTexto2 setText:@""];
-//        _LTexto2.placeholder = NSLocalizedString(@"Erro! Tente novamente!", nil);
-//    }
-//    @finally {
-//
-//    }
+    iTunesManager *itunes = [iTunesManager sharedInstance];
+
+    @try {
+        midias = [itunes buscarMidias:(_LTexto2.text)];
+            [_LTexto2 resignFirstResponder];
+        
+        }
+    @catch (NSException *exception) {
+        NSLog(@"Nao foi possivel achar");
+        [_LTexto2 setText:@""];
+        _LTexto2.placeholder = NSLocalizedString(@"Erro! Tente novamente!", nil);
+    }
+    @finally {
+           [self.tableview reloadData];
+    }
     
     
     NSLog(@"Entrei");
