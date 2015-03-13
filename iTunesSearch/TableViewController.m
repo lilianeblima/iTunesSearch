@@ -64,11 +64,18 @@
 
 #pragma mark - Metodos do UITableViewDataSource
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return 3;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (section == 0)
     return [midias count];
+    else if (section ==1)
+        return [musicas count];
+    else if (section ==2)
+        return [ebooks count];
+    else
+        return [podcasts count];
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -76,29 +83,64 @@
     
     [self Armazenar];
     
+    if (indexPath.section ==0)
+        {
+            Filme *filme = [midias objectAtIndex:indexPath.row];
+            [celula.nome setText:filme.nome];
+            [celula.tipo setText:filme.tipo];
+            [celula.artista setText:filme.artista];
+            NSString *a = [NSString stringWithFormat:@"%@",filme.duracao];
+            [celula.duracao setText:a];
+            [celula.genero setText:filme.genero];
+      }
     
-    
-    Filme *filme = [midias objectAtIndex:indexPath.row];
-    
-    //if ([filme.tipo  isEqual: @"podcast"]) {
-      
-    
-    [celula.nome setText:filme.nome];
-    [celula.tipo setText:filme.tipo];
-    [celula.artista setText:filme.artista];
-    NSString *a = [NSString stringWithFormat:@"%@",filme.duracao];
-    [celula.duracao setText:a];
-    [celula.genero setText:filme.genero];
-    
-    NSLog(@"%@",midias);
-    if (midias == nil) {
-        NSLog(@"NIL");
+    if (indexPath.section ==1)
+    {
+        Musica *musica = [musicas objectAtIndex:indexPath.row];
+        [celula.nome setText:musica.nome];
+        [celula.tipo setText:musica.tipo];
+        [celula.artista setText:musica.artista];
+        NSString *a = [NSString stringWithFormat:@"%@",musica.duracao];
+        [celula.duracao setText:a];
+        [celula.genero setText:musica.genero];
     }
-   // }
+    
+    if (indexPath.section ==2)
+    {
+        Ebook *ebook = [ebooks objectAtIndex:indexPath.row];
+        [celula.nome setText:ebook.nome];
+        [celula.tipo setText:ebook.tipo];
+        [celula.artista setText:ebook.artista];
+        NSString *a = [NSString stringWithFormat:@"%@",ebook.duracao];
+        [celula.duracao setText:a];
+        [celula.genero setText:ebook.genero];
+    }
+    
+    if (indexPath.section ==3)
+    {
+        Podcast *podcast = [podcasts objectAtIndex:indexPath.row];
+        [celula.nome setText:podcast.nome];
+        [celula.tipo setText:podcast.tipo];
+        [celula.artista setText:podcast.artista];
+        NSString *a = [NSString stringWithFormat:@"%@",podcast.duracao];
+        [celula.duracao setText:a];
+        [celula.genero setText:podcast.genero];
+    }
+  
     return celula;
 }
 
-
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    if (section == 0)
+        return @"Filmes";
+    else if (section ==1)
+        return @"Musicas";
+    else if (section ==2)
+        return @"Ebooks";
+    else
+        return @"Podcast";
+}
 
 -(void)Armazenar
 {
@@ -140,6 +182,10 @@
 
     @try {
         midias = [itunes buscarMidias:(_LTexto2.text)];
+        musicas = [itunes buscarMusica:(_LTexto2.text)];
+        ebooks = [itunes buscarEboook:(_LTexto2.text)];
+        podcasts = [itunes buscarPodcast:(_LTexto2.text)];
+        
             [_LTexto2 resignFirstResponder];
         
         }

@@ -45,7 +45,7 @@ static bool isFirstAccess = YES;
                 termo = @"";
             }
     
-            NSString *url = [NSString stringWithFormat:@"https://itunes.apple.com/search?term=%@&media=all", termo];
+            NSString *url = [NSString stringWithFormat:@"https://itunes.apple.com/search?term=%@&media=movie", termo];
             NSData *jsonData = [NSData dataWithContentsOfURL: [NSURL URLWithString:url]];
             
 
@@ -80,12 +80,12 @@ static bool isFirstAccess = YES;
 
 - (NSArray *)buscarMusica:(NSString *)termo
 {
-    @try {
+    
         if (!termo) {
             termo = @"";
         }
         
-            NSString *url1 = [NSString stringWithFormat:@"https://itunes.apple.com/search?term=%@&media=all", termo];
+            NSString *url1 = [NSString stringWithFormat:@"https://itunes.apple.com/search?term=%@&media=music", termo];
             NSData *jsonData1 = [NSData dataWithContentsOfURL: [NSURL URLWithString:url1]];
             
             
@@ -108,30 +108,21 @@ static bool isFirstAccess = YES;
             [musica setDuracao:[item objectForKey:@"trackTimeMillis"]];
             [musica setGenero:[item objectForKey:@"primaryGenreName"]];
             [musica setPais:[item objectForKey:@"country"]];
+            [musica setTipo:[item objectForKey:@"kind"]];
             [musicas addObject:musica];
             
             
             
         }
         return musicas;
-        
-    }
     
-    @catch (NSException *exception)
-    {
-
-        NSMutableArray *musicas = nil;
-        UIAlertView *erro = [[UIAlertView alloc]initWithTitle:@"Erro" message:@"Erro de pesquisa" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [erro show];
-        return  musicas;
-        NSLog(@"ERRO");
-    }
+    
 
 }
 
 - (NSArray *)buscarPodcast:(NSString *)termo
 {
-    @try {
+   
         if (!termo) {
             termo = @"";
         }
@@ -158,6 +149,7 @@ static bool isFirstAccess = YES;
             [podcast setDuracao:[item objectForKey:@"trackTimeMillis"]];
             [podcast setGenero:[item objectForKey:@"primaryGenreName"]];
             [podcast setPais:[item objectForKey:@"country"]];
+            [podcast setTipo:[item objectForKey:@"kind"]];
             [podcasts addObject:podcast];
             
             
@@ -166,23 +158,14 @@ static bool isFirstAccess = YES;
         }
         return podcasts;
         
-    }
     
-    @catch (NSException *exception)
-    {
-        
-        NSMutableArray *podcasts = nil;
-        UIAlertView *erro = [[UIAlertView alloc]initWithTitle:@"Erro" message:@"Erro de pesquisa" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [erro show];
-        return  podcasts;
-        NSLog(@"ERRO");
-    }
+
     
 }
 
 - (NSArray *)buscarEboook:(NSString *)termo
 {
-    @try {
+    
         if (!termo) {
             termo = @"";
         }
@@ -209,23 +192,14 @@ static bool isFirstAccess = YES;
             [ebook setDuracao:[item objectForKey:@"trackTimeMillis"]];
             [ebook setGenero:[item objectForKey:@"primaryGenreName"]];
             [ebook setPais:[item objectForKey:@"country"]];
+            [ebook setTipo:[item objectForKey:@"kind"]];
             [ebooks addObject:ebook];
             
             
         }
         return ebooks;
         
-    }
-    
-    @catch (NSException *exception)
-    {
-        
-        NSMutableArray *ebooks = nil;
-        UIAlertView *erro = [[UIAlertView alloc]initWithTitle:@"Erro" message:@"Erro de pesquisa" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [erro show];
-        return  ebooks;
-        NSLog(@"ERRO");
-    }
+   
     
 }
 
