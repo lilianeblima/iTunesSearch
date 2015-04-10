@@ -39,26 +39,23 @@
     
     NSLog(@"%@", [defaults objectForKey:@"BuscarPalavra"]);
     
-    
-    NSError *error = NULL;
-
-    if ([[defaults objectForKey:@"BucarPalavra"] isEqual:@""])
-    {
+//    if ([[defaults objectForKey:@"BucarPalavra"] isEqual:@""])
+//    {
         midias = [itunes buscarMidias:@"Apple"];
         musicas = [itunes buscarMusica:@"Apple"];
         ebooks = [itunes buscarEboook:@"Apple"];
         podcasts = [itunes buscarPodcast:@"Apple"];
-    }
-    
-    else
-    {
-        midias = [itunes buscarMidias:[defaults objectForKey:@"BuscarPalavra"]];
-        musicas = [itunes buscarMusica:[defaults objectForKey:@"BuscarPalavra"]];
-        ebooks = [itunes buscarEboook:[defaults objectForKey:@"BuscarPalavra"]];
-        podcasts = [itunes buscarPodcast:[defaults objectForKey:@"BuscarPalavra"]];
-    }
-    
-   
+//    }
+//    
+//    else
+//    {
+//        midias = [itunes buscarMidias:[defaults objectForKey:@"BuscarPalavra"]];
+//        musicas = [itunes buscarMusica:[defaults objectForKey:@"BuscarPalavra"]];
+//        ebooks = [itunes buscarEboook:[defaults objectForKey:@"BuscarPalavra"]];
+//        podcasts = [itunes buscarPodcast:[defaults objectForKey:@"BuscarPalavra"]];
+//    }
+//    
+//   
     self.tableview.contentInset = UIEdgeInsetsMake(25.0f, 0.0f, 0.0f, 0.0);
 
 
@@ -111,7 +108,6 @@
             [celula.artista setText:filme.artista];
             NSString *a = [NSString stringWithFormat:@"%@",filme.duracao];
             [celula.duracao setText:a];
-            //[celula.tipo setText:<#(NSString *)#>]
             [celula.genero setText:filme.genero];
             [celula.Imagem setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:filme.imagem]]]];
             [celula.logo setImage:[UIImage imageNamed:@"Filmes.png"]];

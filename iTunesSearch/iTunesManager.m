@@ -35,16 +35,7 @@ static bool isFirstAccess = YES;
 
 - (NSArray *)buscarMidias:(NSString *)termo {
     
-     NSError *error;
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"^[ A-Z0-9a-z._%+-]{2,100}$" options: NSRegularExpressionCaseInsensitive error:&error];
-    
-        NSTextCheckingResult *match = [regex firstMatchInString:termo options:0 range:NSMakeRange(0, [termo length])];
-    
-        if (!match) {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Termo inválido" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-            [alert show];
-                return nil;
-            }
+
          NSMutableArray *filmes = [[NSMutableArray alloc] init];
 
     
@@ -53,35 +44,42 @@ static bool isFirstAccess = YES;
                 termo = @"";
             }
     
-            NSString *url = [NSString stringWithFormat:@"https://itunes.apple.com/search?term=%@&media=movie", termo];
-            NSData *jsonData = [NSData dataWithContentsOfURL: [NSURL URLWithString:url]];
+    @try {
+        NSString *url = [NSString stringWithFormat:@"https://itunes.apple.com/search?term=%@&media=movie", termo];
+        NSData *jsonData = [NSData dataWithContentsOfURL: [NSURL URLWithString:url]];
+        
+        
+        NSError *error;
+        NSDictionary *resultado = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
+        if (error) {
+            NSLog(@" ERRO: %@", error);
+            return nil;
+        }
+        
+        NSArray *resultados = [resultado objectForKey:@"results"];
+        
+        
+        
+        for (NSDictionary *item in resultados) {
+            Filme *filme = [[Filme alloc] init];
+            [filme setNome:[item objectForKey:@"trackName"]];
+            [filme setTrackId:[item objectForKey:@"trackId"]];
+            [filme setArtista:[item objectForKey:@"artistName"]];
+            [filme setDuracao:[item objectForKey:@"trackTimeMillis"]];
+            [filme setGenero:[item objectForKey:@"primaryGenreName"]];
+            [filme setPais:[item objectForKey:@"country"]];
+            [filme setTipo:[item objectForKey:@"kind"]];
+            [filme setImagem:[item objectForKey:@"artworkUrl100"]];
+            [filmes addObject:filme];
             
-
-           // NSError *error;
-            NSDictionary *resultado = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&error];
-            if (error) {
-                NSLog(@"Não foi possível fazer a busca. ERRO: %@", error);
-                return nil;
-            }
+        }
+        return filmes;
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Erro");
+    }
+   
     
-            NSArray *resultados = [resultado objectForKey:@"results"];
-
-
-    
-            for (NSDictionary *item in resultados) {
-                Filme *filme = [[Filme alloc] init];
-                [filme setNome:[item objectForKey:@"trackName"]];
-                [filme setTrackId:[item objectForKey:@"trackId"]];
-                [filme setArtista:[item objectForKey:@"artistName"]];
-                [filme setDuracao:[item objectForKey:@"trackTimeMillis"]];
-                [filme setGenero:[item objectForKey:@"primaryGenreName"]];
-                [filme setPais:[item objectForKey:@"country"]];
-                [filme setTipo:[item objectForKey:@"kind"]];
-                [filme setImagem:[item objectForKey:@"artworkUrl100"]];
-                [filmes addObject:filme];
-          
-            }
-            return filmes;
      
       
 }
@@ -93,12 +91,12 @@ static bool isFirstAccess = YES;
         if (!termo) {
             termo = @"";
         }
+    @try {
+        NSString *url1 = [NSString stringWithFormat:@"https://itunes.apple.com/search?term=%@&media=music", termo];
+        NSData *jsonData1 = [NSData dataWithContentsOfURL: [NSURL URLWithString:url1]];
         
-            NSString *url1 = [NSString stringWithFormat:@"https://itunes.apple.com/search?term=%@&media=music", termo];
-            NSData *jsonData1 = [NSData dataWithContentsOfURL: [NSURL URLWithString:url1]];
-            
-            
-    
+        
+        
         NSError *error;
         NSDictionary *resultado = [NSJSONSerialization JSONObjectWithData:jsonData1 options:NSJSONReadingMutableContainers error:&error];
         if (error) {
@@ -125,7 +123,11 @@ static bool isFirstAccess = YES;
             
         }
         return musicas;
-    
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Erro");
+    }
+   
     
 
 }
@@ -136,7 +138,8 @@ static bool isFirstAccess = YES;
         if (!termo) {
             termo = @"";
         }
-        
+    
+    @try {
         NSString *url2 = [NSString stringWithFormat:@"https://itunes.apple.com/search?term=%@&media=podcast", termo];
         NSData *jsonData2 = [NSData dataWithContentsOfURL: [NSURL URLWithString:url2]];
         
@@ -168,7 +171,11 @@ static bool isFirstAccess = YES;
             
         }
         return podcasts;
-        
+
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Erro");
+    }
     
 
     
@@ -180,7 +187,8 @@ static bool isFirstAccess = YES;
         if (!termo) {
             termo = @"";
         }
-        
+    
+    @try {
         NSString *url3 = [NSString stringWithFormat:@"https://itunes.apple.com/search?term=%@&media=ebook", termo];
         NSData *jsonData3 = [NSData dataWithContentsOfURL: [NSURL URLWithString:url3]];
         
@@ -210,7 +218,14 @@ static bool isFirstAccess = YES;
             
         }
         return ebooks;
+
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Erro");
+    }
+    
         
+    
    
     
 }
